@@ -1,13 +1,18 @@
 {
-  "name": "nuxt-app",
+  "name": "handy-jira",
   "private": true,
   "type": "module",
+  "license": "MIT",
+  "author": {
+    "name": "skkim",
+    "email": "novaray@naver.com"
+  },
   "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "build": "nuxi build",
+    "dev": "nuxi dev",
+    "generate": "nuxi generate",
+    "preview": "nuxi preview",
+    "postinstall": "nuxi prepare"
   },
   "dependencies": {
     "nuxt": "^3.12.4",
