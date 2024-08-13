@@ -7,8 +7,7 @@ export default defineNuxtConfig({
   modules: ['nuxt-quasar-ui', '@nuxtjs/i18n'],
   i18n: {
     vueI18n: './locales/i18n.config.ts',
-    locales: ['en', 'ko'],
-    defaultLocale: 'ko'
+    locales: ['en', 'ko']
   },
   devtools: { enabled: true }
 });
