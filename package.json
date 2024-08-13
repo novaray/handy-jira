@@ -15,6 +15,7 @@
     "postinstall": "nuxi prepare"
   },
   "dependencies": {
+    "@nuxtjs/i18n": "^8.3.3",
     "@quasar/extras": "^1.16.12",
     "nuxt": "^3.12.4",
     "quasar": "^2.16.8",
