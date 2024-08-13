@@ -15,7 +15,9 @@
     "postinstall": "nuxi prepare"
   },
   "dependencies": {
+    "@quasar/extras": "^1.16.12",
     "nuxt": "^3.12.4",
+    "quasar": "^2.16.8",
     "vue": "latest"
   },
   "devDependencies": {
@@ -27,6 +29,7 @@
     "eslint-plugin-nuxt": "^4.0.0",
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-vue": "^9.27.0",
+    "nuxt-quasar-ui": "^2.1.4",
     "prettier": "^3.3.3"
   }
 }
