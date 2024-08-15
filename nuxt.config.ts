@@ -4,7 +4,7 @@ export default defineNuxtConfig({
     compatibilityVersion: 4
   },
   compatibilityDate: '2024-04-03',
-  modules: ['nuxt-quasar-ui', '@nuxtjs/i18n'],
+  modules: ['nuxt-quasar-ui', '@nuxtjs/i18n', "@pinia/nuxt"],
   i18n: {
     vueI18n: './locales/i18n.config.ts',
     locales: ['en', 'ko'],
