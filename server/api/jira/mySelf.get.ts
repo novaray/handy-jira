@@ -1,12 +1,17 @@
 import { JIRA_BASE_URL } from '~~/constants/baseUrl';
 import { JiraMySelf } from '~~/types/jira/mySelf';
-import { JIRA_ACCOUNT_ID_NAME, JIRA_API_COOKIE_NAME, ZEPHYR_API_COOKIE_NAME } from '~~/constants/cookieName';
+import {
+  JIRA_ACCOUNT_ID_NAME,
+  JIRA_API_COOKIE_NAME,
+  ZEPHYR_ACCESS_API_COOKIE_NAME,
+  ZEPHYR_SHARED_API_COOKIE_NAME
+} from '~~/constants/cookieName';
 import { H3Event } from 'h3';
 
 export default defineEventHandler((event) => {
   const query = getQuery(event);
 
-  if (!query || !query.email || !query.jira || !query.zephyr) {
+  if (!query || !query.email || !query.jira || !query.zephyrAccess || !query.zephyrShared) {
     throw createError({
       statusCode: 400,
       statusMessage: 'Email and Jira API Key and Zephyr API Key are required.'
@@ -21,7 +26,8 @@ export default defineEventHandler((event) => {
   }).then((response) => {
     setCookieMaximum(event, JIRA_ACCOUNT_ID_NAME, response.accountId);
     setCookieMaximum(event, JIRA_API_COOKIE_NAME, query.jira as string);
-    setCookieMaximum(event, ZEPHYR_API_COOKIE_NAME, query.zephyr as string);
+    setCookieMaximum(event, ZEPHYR_ACCESS_API_COOKIE_NAME, query.zephyrAccess as string);
+    setCookieMaximum(event, ZEPHYR_SHARED_API_COOKIE_NAME, query.zephyrShared as string);
     return response;
   });
 });

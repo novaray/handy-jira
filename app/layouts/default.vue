@@ -10,8 +10,10 @@ const toggleLeftDrawer = () => {
 const { locale } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
-const { accountCookie, jiraCookie, zephyrCookie, deleteAuthCookies } = useAuthCookies();
-const isAuthenticated = computed(() => !!accountCookie.value && !!jiraCookie.value && !!zephyrCookie.value);
+const { accountCookie, jiraCookie, zephyrAccessCookie, zephyrSharedCookie, deleteAuthCookies } = useAuthCookies();
+const isAuthenticated = computed(
+  () => !!accountCookie.value && !!jiraCookie.value && !!zephyrAccessCookie.value && !!zephyrSharedCookie.value
+);
 const getSelectLocale = computed(() => (locale.value === 'en' ? 'English' : '한국어'));
 
 const { t } = useI18n();

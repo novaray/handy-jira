@@ -11,7 +11,8 @@ const emit = defineEmits<Emit>();
 const form = ref({
   email: '',
   jira: '',
-  zephyr: ''
+  zephyrAccess: '',
+  zephyrShared: ''
 });
 const error = ref<string>();
 const loading = ref(false);
@@ -57,11 +58,23 @@ const handleSubmit = async () => {
     />
 
     <q-input
-      v-model="form.zephyr"
+      v-model="form.zephyrAccess"
       filled
-      label="Zephyr API key"
+      label="Zephyr Access API key"
       lazy-rules
-      :rules="[(zephyr) => ValidationUtils.isRequired(zephyr, $t('validation.required', { field: 'Zephyr API key' }))]"
+      :rules="[
+        (zephyr) => ValidationUtils.isRequired(zephyr, $t('validation.required', { field: 'Zephyr Access API key' }))
+      ]"
+    />
+
+    <q-input
+      v-model="form.zephyrShared"
+      filled
+      label="Zephyr Shared API key"
+      lazy-rules
+      :rules="[
+        (zephyr) => ValidationUtils.isRequired(zephyr, $t('validation.required', { field: 'Zephyr Shared API key' }))
+      ]"
     />
 
     <div
