@@ -32,6 +32,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-vue": "^9.27.0",
     "nuxt-quasar-ui": "^2.1.4",
-    "prettier": "^3.3.3"
+    "prettier": "^3.3.3",
+    "sass": "^1.77.8"
   }
 }
