@@ -9,5 +9,10 @@ export const ko = {
   validation: {
     required: '{field}은(는) 필수입니다.',
     invalidEmail: '이메일 형식이 올바르지 않습니다.'
+  },
+  errorMessage: {
+    CHECK_URL: 'URL을 확인해주세요.',
+    PLEASE_LOGIN: '로그인이 필요합니다.',
+    PARAMETER_MISSING: '필수 매개변수가 누락되었습니다.'
   }
 };

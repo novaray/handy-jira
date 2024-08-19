@@ -14,7 +14,7 @@ export default defineEventHandler((event) => {
   if (!query || !query.email || !query.jira || !query.zephyrAccess || !query.zephyrShared) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'Email and Jira API Key and Zephyr API Key are required.'
+      statusMessage: 'PARAMETER_MISSING'
     });
   }
 

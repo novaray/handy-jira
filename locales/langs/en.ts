@@ -9,5 +9,10 @@ export const en = {
   validation: {
     required: '{field} is required.',
     invalidEmail: 'Invalid email.'
+  },
+  errorMessage: {
+    CHECK_URL: 'Please check the URL.',
+    PLEASE_LOGIN: 'Please login.',
+    PARAMETER_MISSING: 'Required parameter is missing.'
   }
 };
