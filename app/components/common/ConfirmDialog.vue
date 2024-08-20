@@ -19,11 +19,11 @@ const onClickConfirm = () => {
 
       <q-card-actions align="right">
         <q-btn
-          label="Cancel"
+          :label="$t('cancel')"
           @click="onClickCancel"
         />
         <q-btn
-          label="Confirm"
+          :label="$t('confirm')"
           color="primary"
           @click="onClickConfirm"
         />

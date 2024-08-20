@@ -10,6 +10,18 @@ export const en = {
     required: '{field} is required.',
     invalidEmail: 'Invalid email.'
   },
+  common: {
+    add: 'Add',
+    cancel: 'Cancel',
+    confirm: 'Confirm'
+  },
+  jira: {
+    addUrlButton: 'Add Jira URL',
+    inputUrlDialog: {
+      title: 'Input Jira URL',
+      placeholder: 'Please enter the Jira URL.'
+    }
+  },
   errorMessage: {
     CHECK_URL: 'Please check the URL.',
     PLEASE_LOGIN: 'Please login.',

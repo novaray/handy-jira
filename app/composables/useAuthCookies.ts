@@ -11,6 +11,10 @@ export const useAuthCookies = () => {
   const zephyrAccessCookie = useCookie(ZEPHYR_ACCESS_API_COOKIE_NAME);
   const zephyrSharedCookie = useCookie(ZEPHYR_SHARED_API_COOKIE_NAME);
 
+  const isAuthenticated = computed(
+    () => !!accountCookie.value && !!jiraCookie.value && !!zephyrAccessCookie.value && !!zephyrSharedCookie.value
+  );
+
   const refreshAuthCookies = () => {
     refreshCookie(JIRA_ACCOUNT_ID_NAME);
     refreshCookie(JIRA_API_COOKIE_NAME);
@@ -30,6 +34,7 @@ export const useAuthCookies = () => {
     jiraCookie,
     zephyrAccessCookie,
     zephyrSharedCookie,
+    isAuthenticated,
     refreshAuthCookies,
     deleteAuthCookies
   };

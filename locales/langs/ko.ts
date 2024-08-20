@@ -10,6 +10,18 @@ export const ko = {
     required: '{field}은(는) 필수입니다.',
     invalidEmail: '이메일 형식이 올바르지 않습니다.'
   },
+  common: {
+    add: '추가',
+    cancel: '취소',
+    confirm: '확인'
+  },
+  jira: {
+    addUrlButton: 'Jira URL 추가',
+    inputUrlDialog: {
+      title: 'Jira URL 입력',
+      placeholder: 'Jira URL을 입력해주세요.'
+    }
+  },
   errorMessage: {
     CHECK_URL: 'URL을 확인해주세요.',
     PLEASE_LOGIN: '로그인이 필요합니다.',

@@ -2,10 +2,7 @@
 const { locale } = useI18n();
 const switchLocalePath = useSwitchLocalePath();
 
-const isAuthenticated = ref(false);
 const getSelectLocale = computed(() => (locale.value === 'en' ? 'English' : '한국어'));
-
-const signOut = () => {};
 </script>
 
 <template>
@@ -71,7 +68,6 @@ const signOut = () => {};
           vertical
         />
         <NuxtLinkLocale
-          v-if="!isAuthenticated"
           v-slot="{ navigate }"
           custom
           to="/login"
@@ -84,14 +80,6 @@ const signOut = () => {};
             @click="navigate()"
           />
         </NuxtLinkLocale>
-        <q-btn
-          v-else
-          stretch
-          flat
-          :label="$t('logout')"
-          no-caps
-          @click="signOut()"
-        />
       </q-toolbar>
     </q-header>
 

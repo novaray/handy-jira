@@ -1,15 +1,14 @@
-export interface ConfirmDialogStore {
-  visible: boolean;
+import type { CommonDialog } from '~/stores/dialog/CommonDialog';
+
+export interface ConfirmDialogStore extends CommonDialog {
   message: string;
-  resolve?: (value?: any) => void;
-  reject?: (value?: any) => void;
 }
 
 export const useConfirmDialogStore = defineStore('confirmDialog', {
   state: (): ConfirmDialogStore => ({
     visible: false,
     message: '',
-    resolve: undefined, // default 값을 함수 또는 객체로 하면 @nuxt/devalue 에서 stringify 에러 발생.
+    resolve: undefined,
     reject: undefined
   }),
   actions: {
