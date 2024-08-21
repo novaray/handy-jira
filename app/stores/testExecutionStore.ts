@@ -19,17 +19,19 @@ export const useTestExecutionStore = defineStore('testExecutionStore', {
   actions: {
     addInitJiraItem(title: string, url: string) {
       this.jiraItems.push({ id: this.newId++, title, url, init: false, testSteps: [] });
+      return this.newId - 1;
     },
     addJiraItem(title: string, url: string, testSteps: TestStep[]) {
       this.jiraItems.push({ id: this.newId++, title, url, testSteps });
     },
-    modifyJiraItem(id: number, title: string, url: string, testSteps: TestStep[]) {
+    modifyJiraItem(id: number, testSteps: TestStep[]) {
       const index = this.jiraItems.findIndex((item) => item.id === id);
       if (index === -1) {
         console.error('modifyJiraItem: invalid id');
+        throw new Error('invalid id. not found jira item');
       }
 
-      this.jiraItems[index] = { id, title, url, init: true, testSteps };
+      this.jiraItems[index].testSteps = testSteps;
     },
     removeJiraItem(id: number) {
       this.jiraItems = this.jiraItems.filter((item) => item.id !== id);

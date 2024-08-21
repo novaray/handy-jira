@@ -25,10 +25,7 @@ const handleSubmit = async () => {
     }
   })
     .then((response) => emit('success'))
-    .catch((err: JiraErrorResponse) => {
-      error.value = `${err.status} - ${err.data.data}`;
-      console.dir(err);
-    })
+    .catch(useHandleError)
     .finally(() => (loading.value = false));
 };
 </script>

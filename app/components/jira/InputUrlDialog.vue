@@ -9,14 +9,19 @@ const onClickCancel = () => {
 const onClickConfirm = () => {
   dialogStore.confirm(url.value);
 };
+
+const onHide = () => {
+  url.value = '';
+};
 </script>
 
 <template>
   <q-dialog
     :model-value="dialogStore.visible"
     persistent
+    @hide="onHide"
   >
-    <q-card style="min-width: 350px">
+    <q-card style="min-width: 550px">
       <q-card-section>
         <div class="text-h6">{{ $t('jira.inputUrlDialog.title') }}</div>
       </q-card-section>
@@ -37,12 +42,12 @@ const onClickConfirm = () => {
       >
         <q-btn
           flat
-          :label="$t('cancel')"
+          :label="$t('common.cancel')"
           @click="onClickCancel"
         />
         <q-btn
           flat
-          :label="$t('confirm')"
+          :label="$t('common.confirm')"
           @click="onClickConfirm"
         />
       </q-card-actions>
