@@ -15,8 +15,7 @@ export const generateZephyrJWT = (event: H3Event, method: string, relativePath: 
   if (!accountId || !sharedKey || !accessKey) {
     throw createError({
       statusCode: 400,
-      // statusMessage: 'Jira Account ID, Zephyr Shared Key, and Zephyr Access Key are required.'
-      statusMessage: 'Please Login.'
+      statusMessage: 'PLEASE_LOGIN'
     });
   }
 
