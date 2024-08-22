@@ -16,6 +16,15 @@ export const useTestExecutionStore = defineStore('testExecutionStore', {
     jiraItems: [],
     newId: 1
   }),
+  getters: {
+    getJiraItemById: (state) => (id: number) => {
+      if (state.jiraItems.length === 0 || state.jiraItems.every((item) => item.id !== id)) {
+        return null;
+      }
+
+      return state.jiraItems.find((item) => item.id === id) as TestExecutionStore['jiraItems'][0];
+    }
+  },
   actions: {
     addInitJiraItem(title: string, url: string) {
       this.jiraItems.push({ id: this.newId++, title, url, init: false, testSteps: [] });
