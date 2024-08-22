@@ -20,7 +20,9 @@ export const ko = {
     inputUrlDialog: {
       title: 'Jira URL 입력',
       placeholder: 'Jira URL을 입력해주세요.'
-    }
+    },
+    itemDeleteConfirm: '이 항목을 삭제하시겠습니까?',
+    fetchExecutionLoading: '테스트 실행 데이터를 가져오는 중...'
   },
   errorMessage: {
     CHECK_URL: 'URL을 확인해주세요.',

@@ -20,7 +20,9 @@ export const en = {
     inputUrlDialog: {
       title: 'Input Jira URL',
       placeholder: 'Please enter the Jira URL.'
-    }
+    },
+    itemDeleteConfirm: 'Are you sure you want to delete this item?',
+    fetchExecutionLoading: 'Fetching test execution data...'
   },
   errorMessage: {
     CHECK_URL: 'Please check the URL.',

@@ -31,6 +31,7 @@ export const useTestExecutionStore = defineStore('testExecutionStore', {
         throw new Error('invalid id. not found jira item');
       }
 
+      this.jiraItems[index].init = true;
       this.jiraItems[index].testSteps = testSteps;
     },
     removeJiraItem(id: number) {

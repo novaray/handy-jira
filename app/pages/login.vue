@@ -11,7 +11,7 @@ const localeRoute = useLocaleRoute();
 const handleSuccess = () => {
   Notify.create({
     message: t('loginSuccess'),
-    color: 'positive'
+    type: 'positive'
   });
   const route = localeRoute({ name: 'index' });
   navigateTo(route);
