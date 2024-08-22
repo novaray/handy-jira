@@ -21,7 +21,13 @@ const onClick = (e: any) => {
     return;
   }
 
-  const route = localeRoute({ name: 'jira-issue-id-issueTitle' });
+  const route = localeRoute({
+    name: 'jira-issue-id-issueTitle',
+    params: {
+      id: props.id,
+      issueTitle: props.title
+    }
+  });
   if (!route) {
     return;
   }
