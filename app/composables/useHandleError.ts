@@ -1,8 +1,28 @@
 import { Notify } from 'quasar';
+import type { ComposerTranslation } from 'vue-i18n';
 
 export const useHandleError = (error: any) => {
+  if (!error) {
+    // ignore
+    return;
+  }
+
   const { $i18n } = useNuxtApp(); // composable인 useI18n을 사용하면 에러 발생.
   console.error(error);
+
+  if (error.data instanceof Blob) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = JSON.parse(reader.result as string);
+      Notify.create({
+        message: getMessage(result.statusMessage, $i18n.t),
+        color: 'negative'
+      });
+    };
+    reader.readAsText(error.data);
+    return;
+  }
+
   if (error.data && error.data.data && error.data.data.clientMessage) {
     // zephyrs api error
     Notify.create({
@@ -27,17 +47,12 @@ export const useHandleError = (error: any) => {
   }
 
   // client error
-  if (error.message.split(' ').length === 1) {
-    // 다국어 에러
-    Notify.create({
-      message: $i18n.t(`errorMessage.${error.message}`),
-      type: 'warning'
-    });
-  } else {
-    // 일반 메시지 에러
-    Notify.create({
-      message: error.message,
-      type: 'warning'
-    });
-  }
+  Notify.create({
+    message: getMessage(error.message, $i18n.t),
+    type: 'warning'
+  });
+};
+
+const getMessage = (message: string, t: ComposerTranslation) => {
+  return message.split(' ').length === 1 ? t(`errorMessage.${message}`) : message;
 };
