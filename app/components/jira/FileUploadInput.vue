@@ -138,7 +138,7 @@ const onUploadClick = () => {
     class="row justify-between"
     :class="rootBgColorClass"
   >
-    <div class="col-9 q-pa-md">
+    <div class="col-8 q-pa-md">
       <div class="row">
         <CommonFileInput
           v-model="file"
