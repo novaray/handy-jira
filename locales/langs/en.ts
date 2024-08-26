@@ -13,7 +13,14 @@ export const en = {
   common: {
     add: 'Add',
     cancel: 'Cancel',
-    confirm: 'Confirm'
+    confirm: 'Confirm',
+    addFile: 'Add File',
+    fileUpload: 'File Upload',
+    compressVideo: 'Compress Video',
+    uploadLoading: 'Uploading...',
+    compressLoading: 'Compressing...',
+    compressSuccess: 'Compression completed.',
+    uploadSuccess: 'Upload completed.'
   },
   jira: {
     addUrlButton: 'Add Jira URL',
@@ -22,11 +29,15 @@ export const en = {
       placeholder: 'Please enter the Jira URL.'
     },
     itemDeleteConfirm: 'Are you sure you want to delete this item?',
-    fetchExecutionLoading: 'Fetching test execution data...'
+    fileInputLabel: 'Select a file(under 40MB)',
+    fetchExecutionLoading: 'Fetching test execution data...',
+    addJiraItemSuccess: 'Jira item added successfully.'
   },
   errorMessage: {
     CHECK_URL: 'Please check the URL.',
     PLEASE_LOGIN: 'Please login.',
-    PARAMETER_MISSING: 'Required parameter is missing.'
+    PARAMETER_MISSING: 'Required parameter is missing.',
+    NO_FILE_UPLOADED: 'No file uploaded',
+    FILE_SIZE_EX: 'File size exceeds the limit.'
   }
 };
