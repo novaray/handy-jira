@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Notify } from 'quasar';
 import type { TestStep } from '~~/types/zephyrs/TestStep';
+import type { ExecutionResponse } from '~~/types/zephyrs/Execution';
 
 const leftDrawerOpen = ref(true);
 
@@ -28,16 +29,30 @@ const onClickJiraAddUrl = () => {
       const urlParams = new URLSearchParams(new URL(url).search);
       const title = urlParams.get('zql')?.split('=')[1]?.trim() || 'No title';
       newId = testExecutionStore.addInitJiraItem(title, url);
-      return $fetch('/api/zephyrs/testSteps', {
-        method: 'GET',
-        query: {
-          issueId: urlParams.get('issue.id'),
-          projectId: urlParams.get('project.id')
-        }
-      });
+      return Promise.all([
+        $fetch<TestStep[]>('/api/zephyrs/testSteps', {
+          method: 'GET',
+          query: {
+            issueId: urlParams.get('issue.id'),
+            projectId: urlParams.get('project.id')
+          }
+        }),
+        $fetch<ExecutionResponse>('/api/zephyrs/execution', {
+          method: 'GET',
+          query: {
+            issueId: urlParams.get('issue.id'),
+            projectId: urlParams.get('project.id'),
+            executionId: urlParams.get('execution.id')
+          }
+        })
+      ]);
     })
-    .then((testSteps: TestStep[]) => {
-      return testExecutionStore.modifyJiraItem(newId, testSteps);
+    .then(([testSteps, executionResponse]: [TestStep[], ExecutionResponse]) => {
+      Notify.create({
+        message: t('jira.addJiraItemSuccess'),
+        type: 'positive'
+      });
+      return testExecutionStore.modifyJiraItem(newId, testSteps, executionResponse.execution.execution);
     })
     .catch((error) => {
       useHandleError(error);
@@ -45,7 +60,7 @@ const onClickJiraAddUrl = () => {
     });
 };
 
-const validateUrl = (url) => {
+const validateUrl = (url: string) => {
   try {
     const urlParams = new URLSearchParams(new URL(url).search);
 
@@ -92,7 +107,20 @@ const signOut = (message: string) => {
           icon="menu"
           @click="toggleLeftDrawer"
         />
-        <q-toolbar-title>{{ $t('title') }}</q-toolbar-title>
+        <q-toolbar-title>
+          <NuxtLinkLocale
+            v-slot="{ navigate }"
+            custom
+            to="/"
+          >
+            <div
+              style="cursor: pointer; width: fit-content"
+              @click="navigate"
+            >
+              {{ $t('title') }}
+            </div>
+          </NuxtLinkLocale>
+        </q-toolbar-title>
 
         <NuxtLinkLocale
           v-slot="{ navigate }"

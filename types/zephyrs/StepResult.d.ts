@@ -7,7 +7,7 @@ export interface StepResults {
 }
 
 export interface StepResult {
-  id: string;
+  id: string; // entityId
   executionId: string;
   stepId: string;
   status: ExecutionStatus;

@@ -9,10 +9,10 @@ export const useJiraUrlInputDialogStore = defineStore('jiraUrlInputDialog', {
     reject: undefined
   }),
   actions: {
-    open() {
+    open(): Promise<string> {
       this.visible = true;
 
-      const { promise, resolve, reject } = Promise.withResolvers();
+      const { promise, resolve, reject } = Promise.withResolvers<string>();
       this.resolve = resolve;
       this.reject = reject;
       return promise;
