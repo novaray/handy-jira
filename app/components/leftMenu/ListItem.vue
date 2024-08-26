@@ -35,9 +35,9 @@ const onClick = (e: any) => {
   return navigateTo(route.fullPath);
 };
 
-const onClickLink = (url: string) => {
+const onClickLink = (e: Event, url: string) => {
   e.stopPropagation();
-  window.open(url, '_blank').focus();
+  window.open(url, '_blank')?.focus();
 };
 
 const confirmDialogStore = useConfirmDialogStore();
@@ -67,7 +67,7 @@ const onClickDelete = (e: Event) => {
       >
         <span
           class="cursor-pointer"
-          @click="onClickLink(url)"
+          @click="(event) => onClickLink(event, url)"
         >
           Open in Jira
         </span>
