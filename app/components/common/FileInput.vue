@@ -5,12 +5,18 @@ interface Props {
   labelColor?: string;
   accept?: string;
   counter?: boolean;
+  maxFileSize?: number;
+  clearable?: boolean;
+  disable?: boolean;
 }
 const props = withDefaults(defineProps<Props>(), {
   label: 'file Upload',
   color: 'grey-3',
   labelColor: 'green',
-  counter: true
+  counter: true,
+  maxFileSize: Infinity,
+  clearable: true,
+  disable: false
 });
 
 const modelValue = defineModel<File | FileList | undefined>({
@@ -26,6 +32,9 @@ const modelValue = defineModel<File | FileList | undefined>({
     :label-color="labelColor"
     :accept="accept"
     :counter="counter"
+    :max-file-size="maxFileSize"
+    :clearable="clearable"
+    :disable="disable"
     outlined
   >
     <template v-slot:append>
