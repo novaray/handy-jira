@@ -2,7 +2,8 @@
 
 <template>
   <q-page padding>
-    <h1>Hello</h1>
+    <h2>Hello~👋</h2>
+    <h3>It's handy Jira!</h3>
   </q-page>
 </template>
 
