@@ -1,5 +1,7 @@
 <script setup lang="ts">
 import { FILE_LIMIT_SIZE } from '~~/constants/common';
+import { getBucketSignedUrl } from '~/utils/getBucketSignedUrl';
+import { v4 as uuidv4 } from 'uuid';
 
 const MAX_FILE_SIZE = 40 * 1024 * 1024; // 40MB
 
@@ -50,28 +52,23 @@ const onCompressClick = () => {
     return;
   }
 
+  const fileExtension = file.value.name.split('.').pop() as string;
+  const uuid = `${uuidv4()}.${fileExtension}`;
   compressLoading.value = true;
-  const formData = new FormData();
-  formData.append('video', file.value);
-  console.log(file.value);
-
-  $fetch('/api/file/compressVideo', {
-    method: 'POST',
-    body: formData,
-    responseType: 'blob'
-  })
-    .then(async (response: any) => {
+  getBucketSignedUrl(uuid, false)
+    .then(({ url }) => url)
+    .then((url) => uploadToBucket(url, file.value!))
+    .then(() => compressVideo(uuid))
+    .then(({ downloadFileName }) => getBucketSignedUrl(downloadFileName))
+    .then(({ url }) => downloadFromBucket(url))
+    .then((res) => {
       isCompress.value = true;
-      if (response.type === 'application/json') {
-        return handleCompressError(response);
-      }
-
       Notify.create({
         message: t('common.compressSuccess'),
         color: 'positive'
       });
 
-      const tempFile = new File([response], file.value!.name);
+      const tempFile = new File([res], file.value!.name);
       if (tempFile) {
         file.value = tempFile;
       }
@@ -80,16 +77,33 @@ const onCompressClick = () => {
     .finally(() => (compressLoading.value = false));
 };
 
-const handleCompressError = (response: any) => {
-  const reader = new FileReader();
-  reader.onload = () => {
-    const result = JSON.parse(reader.result as string);
-    Notify.create({
-      message: result.statusMessage,
-      color: 'negative'
-    });
-  };
-  reader.readAsText(response);
+const uploadToBucket = (url: string, file: File) => {
+  debugger;
+  return $fetch<any>(url, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': file.type,
+      'Content-Length': file.size.toString()
+    },
+    body: file
+  });
+};
+
+const downloadFromBucket = (url: string) => {
+  return $fetch<any>(url, {
+    method: 'GET'
+  });
+};
+
+const compressVideo = (url: string) => {
+  return $fetch<{
+    downloadFileName: string;
+  }>('/api/file/compressVideo', {
+    method: 'POST',
+    query: {
+      fileKey: url
+    }
+  });
 };
 
 const uploadLoading = ref(false);

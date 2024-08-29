@@ -4,38 +4,45 @@ import ffprobeStatic from 'ffprobe-static';
 import fs from 'fs';
 import path from 'path';
 import { tmpdir } from 'os';
+import { GetObjectCommand, PutObjectCommand } from '@aws-sdk/client-s3';
+import { v4 as uuidv4 } from 'uuid';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 ffmpeg.setFfmpegPath(ffmpegInstaller.path); // ffmpeg binary path 설정
 ffmpeg.setFfprobePath(ffprobeStatic.path); // ffprobe binary path 설정
 const targetSizeBytes = 10 * 1024 * 1024; //10MB 제한.
 
 export default defineEventHandler(async (event) => {
-  // 파일 업로드 처리
-  const form = await readMultipartFormData(event);
-
-  if (!form || !form.length) {
+  const { fileKey } = getQuery(event);
+  if (!fileKey) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'NO_FILE_UPLOADED'
+      statusMessage: 'PARAMETER_MISSING'
     });
   }
 
-  const videoFile = form.find((file) => file.filename);
+  const { r2BucketName } = useRuntimeConfig(event);
+  const s3Client = generateS3Client(event);
 
-  if (!videoFile) {
-    throw createError({
-      statusCode: 400,
-      statusMessage: 'NO_FILE_UPLOADED'
-    });
-  }
+  const fullFileName = fileKey as string;
+  const fileExtension = fullFileName.split('.').pop() as string;
+  const params = {
+    Bucket: r2BucketName,
+    Key: fullFileName
+  };
 
-  const inputVideoPath = path.join(tmpdir(), videoFile.filename!);
-  const outputVideoPath = path.join(tmpdir(), `output-${Date.now()}.mp4`);
+  const getCommand = new GetObjectCommand(params);
+  const inputVideoPath = path.join(tmpdir(), fullFileName);
 
-  // 임시로 파일 저장
-  fs.writeFileSync(inputVideoPath, videoFile.data);
-
+  const newFileName = `${uuidv4()}.${fileExtension}`;
+  const outputVideoPath = path.join(tmpdir(), newFileName);
   try {
+    const response = await s3Client.send(getCommand);
+    const fileString = await response.Body!.transformToByteArray();
+
+    // 임시로 파일 저장
+    fs.writeFileSync(inputVideoPath, fileString);
+
     // 비디오 파일 메타데이터 분석
     const metadata: FfprobeData = await new Promise((resolve, reject) => {
       ffmpeg.ffprobe(inputVideoPath, (err, data) => {
@@ -50,34 +57,37 @@ export default defineEventHandler(async (event) => {
     // 비디오 압축 처리
     await compressVideo(inputVideoPath, outputVideoPath, targetBitrate);
 
-    // 최종 파일 크기 확인
-    const stats = fs.statSync(outputVideoPath);
-    const fileSizeInBytes = stats.size;
+    const putParams = {
+      Bucket: r2BucketName,
+      Key: newFileName
+    };
+    const putCommand = new PutObjectCommand(putParams);
+    const signedUrl = await getSignedUrl(s3Client, putCommand);
 
-    if (fileSizeInBytes > targetSizeBytes) {
-      fs.unlinkSync(inputVideoPath);
-      if (fs.existsSync(outputVideoPath)) {
-        fs.unlinkSync(outputVideoPath);
-      }
-      throw new Error('FILE_SIZE_EX');
-    }
-
-    // 압축된 비디오 파일을 클라이언트로 전송
-    const stream = fs.createReadStream(outputVideoPath);
-    return sendStream(event, stream).finally(() => {
-      // 스트림이 끝나면 임시 파일 삭제
-      fs.unlinkSync(inputVideoPath);
-      if (fs.existsSync(outputVideoPath)) {
-        fs.unlinkSync(outputVideoPath);
-      }
+    await $fetch(signedUrl, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'video/*',
+        'Content-Length': fs.statSync(outputVideoPath).size.toString()
+      },
+      body: fs.createReadStream(outputVideoPath)
     });
+
+    return {
+      downloadFileName: newFileName
+    };
   } catch (error: any) {
-    console.error('Video processing error:', error);
+    console.dir(error);
     const message = error.message || error.statusMessage;
     throw createError({
       statusCode: 500,
       statusMessage: typeof message === 'string' ? message : 'Video processing error'
     });
+  } finally {
+    fs.unlinkSync(inputVideoPath);
+    if (fs.existsSync(outputVideoPath)) {
+      fs.unlinkSync(outputVideoPath);
+    }
   }
 });
 
