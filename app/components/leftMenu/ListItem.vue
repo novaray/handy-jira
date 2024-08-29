@@ -15,6 +15,20 @@ interface Emits {
 }
 const emit = defineEmits<Emits>();
 
+const route = useRoute();
+const routeId = ref(+(route.params.id as string));
+
+watch(
+  () => route.params.id,
+  (newId) => {
+    routeId.value = +(newId as string);
+  }
+);
+
+const active = computed(
+  () => route.name?.toString().includes('jira-issue-id-issueTitle') && routeId.value === props.id
+);
+
 const localeRoute = useLocaleRoute();
 const onClick = (e: any) => {
   if (!props.init) {
@@ -53,6 +67,8 @@ const onClickDelete = (e: Event) => {
     clickable
     transition-hide="jump-up"
     @click="onClick"
+    :active="active"
+    active-class="bg-light-blue-1 text-grey-8"
   >
     <q-item-section
       v-if="init"
