@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const { r2BucketName } = useRuntimeConfig(event).public;
+  const r2BucketName = useRuntimeConfig(event).public ?? process.env.R2_BUCKET_NAME;
   const s3Client = generateS3Client(event);
 
   const fullFileName = fileKey as string;

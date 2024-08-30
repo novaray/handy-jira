@@ -11,11 +11,11 @@ export default defineEventHandler(async (event) => {
   }
 
   const { r2BucketName } = useRuntimeConfig(event).public;
-  console.log('generatePutBucketUrl', r2BucketName);
+  console.log('generatePutBucketUrl', r2BucketName, process.env.R2_BUCKET_NAME);
   const s3Client = generateS3Client(event);
 
   const params = {
-    Bucket: r2BucketName,
+    Bucket: r2BucketName ?? process.env.R2_BUCKET_NAME,
     Key: key as string
   };
 
