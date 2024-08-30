@@ -15,7 +15,7 @@ export default defineEventHandler(async (event) => {
   const s3Client = generateS3Client(event);
 
   const params = {
-    Bucket: r2BucketName ?? process.env.R2_BUCKET_NAME,
+    Bucket: r2BucketName || process.env.R2_BUCKET_NAME,
     Key: key as string
   };
 
