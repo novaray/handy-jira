@@ -24,9 +24,11 @@ export default defineNuxtConfig({
   css: ['@/assets/scss/main.scss'],
   devtools: { enabled: true },
   runtimeConfig: {
-    r2AccountId: process.env.R2_ACCOUNT_ID,
-    r2BucketName: process.env.R2_BUCKET_NAME,
-    r2AccessKey: process.env.R2_ACCESS_KEY,
-    r2SecretKey: process.env.R2_SECRET_KEY
+    public: {
+      r2AccountId: process.env.R2_ACCOUNT_ID,
+      r2BucketName: process.env.R2_BUCKET_NAME,
+      r2AccessKey: process.env.R2_ACCESS_KEY,
+      r2SecretKey: process.env.R2_SECRET_KEY
+    }
   }
 });

@@ -1,5 +1,5 @@
 declare module 'nuxt/schema' {
-  interface RuntimeConfig {
+  interface PublicRuntimeConfig {
     r2AccountId: string;
     r2BucketName: string;
     r2AccessKey: string;
