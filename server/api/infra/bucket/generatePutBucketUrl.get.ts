@@ -11,6 +11,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const { r2BucketName } = useRuntimeConfig(event);
+  console.log('generatePutBucketUrl', r2BucketName);
   const s3Client = generateS3Client(event);
 
   const params = {
