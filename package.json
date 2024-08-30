@@ -12,7 +12,8 @@
     "dev": "nuxi dev",
     "generate": "nuxi generate",
     "preview": "nuxi preview",
-    "postinstall": "nuxi prepare"
+    "postinstall": "nuxi prepare",
+    "start": "node .output/server/index.mjs"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.637.0",
