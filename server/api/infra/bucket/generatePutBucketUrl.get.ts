@@ -25,6 +25,8 @@ export default defineEventHandler(async (event) => {
       url: signedUrl
     };
   } catch (e) {
+    console.dir(e);
+    console.error(e);
     throw createError({
       statusCode: 500,
       statusMessage: 'S3_ERROR'
