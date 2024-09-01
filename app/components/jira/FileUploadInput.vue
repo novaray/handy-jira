@@ -3,7 +3,7 @@ import { FILE_LIMIT_SIZE } from '~~/constants/common';
 import { getBucketSignedUrl } from '~/utils/getBucketSignedUrl';
 import { v4 as uuidv4 } from 'uuid';
 
-const MAX_FILE_SIZE = 40 * 1024 * 1024; // 40MB
+const MAX_FILE_SIZE = 31 * 1024 * 1024; // 30MB(30MB까지 받기위함으로 31으로 지정).
 
 interface Props {
   id: string; // entityId
@@ -78,7 +78,6 @@ const onCompressClick = () => {
 };
 
 const uploadToBucket = (url: string, file: File) => {
-  debugger;
   return $fetch<any>(url, {
     method: 'PUT',
     headers: {

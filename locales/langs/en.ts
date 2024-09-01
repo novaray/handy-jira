@@ -29,7 +29,7 @@ export const en = {
       placeholder: 'Please enter the Jira URL.'
     },
     itemDeleteConfirm: 'Are you sure you want to delete this item?',
-    fileInputLabel: 'Select a file(under 40MB)',
+    fileInputLabel: 'Select a file(under 30MB)',
     fetchExecutionLoading: 'Fetching test execution data...',
     addJiraItemSuccess: 'Jira item added successfully.'
   },

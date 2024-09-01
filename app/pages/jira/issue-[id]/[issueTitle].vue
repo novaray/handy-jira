@@ -11,6 +11,7 @@ const id = +(route.params.id as string);
 const jiraItem = computed(() => testExecutionStore.getJiraItemById(id));
 const testSteps = computed(() => jiraItem.value?.testSteps || []);
 
+let RETRY_COUNT = 1;
 const fetchTestResults = () => {
   if (!jiraItem.value) {
     console.error('No jira item');
@@ -30,14 +31,18 @@ const fetchTestResults = () => {
     }
   })
     .then((response: StepResults) => {
-      Notify.create({
-        message: 'Step results loaded!',
-        type: 'success'
-      });
-
       testExecutionStore.setStepResults(id, response.stepResults);
     })
-    .catch(useHandleError);
+    .catch((err) => {
+      if (RETRY_COUNT > 3) {
+        useHandleError(err);
+        return;
+      }
+
+      // 3번까지 재시도(그 전에 에러는 무시).
+      RETRY_COUNT += 1;
+      fetchTestResults();
+    });
 };
 fetchTestResults();
 

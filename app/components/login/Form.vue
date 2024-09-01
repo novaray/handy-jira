@@ -49,28 +49,28 @@ const handleSubmit = async () => {
     <q-input
       v-model="form.jira"
       filled
-      label="Jira API key"
+      label="Jira API Token"
       lazy-rules
-      :rules="[(jira) => ValidationUtils.isRequired(jira, $t('validation.required', { field: 'Jira API key' }))]"
+      :rules="[(jira) => ValidationUtils.isRequired(jira, $t('validation.required', { field: 'Jira API Token' }))]"
     />
 
     <q-input
       v-model="form.zephyrAccess"
       filled
-      label="Zephyr Access API key"
+      label="Zephyr Access key"
       lazy-rules
       :rules="[
-        (zephyr) => ValidationUtils.isRequired(zephyr, $t('validation.required', { field: 'Zephyr Access API key' }))
+        (zephyr) => ValidationUtils.isRequired(zephyr, $t('validation.required', { field: 'Zephyr Access key' }))
       ]"
     />
 
     <q-input
       v-model="form.zephyrShared"
       filled
-      label="Zephyr Shared API key"
+      label="Zephyr Shared key"
       lazy-rules
       :rules="[
-        (zephyr) => ValidationUtils.isRequired(zephyr, $t('validation.required', { field: 'Zephyr Shared API key' }))
+        (zephyr) => ValidationUtils.isRequired(zephyr, $t('validation.required', { field: 'Zephyr Shared key' }))
       ]"
     />
 

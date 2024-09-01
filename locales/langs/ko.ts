@@ -29,7 +29,7 @@ export const ko = {
       placeholder: 'Jira URL을 입력해주세요.'
     },
     itemDeleteConfirm: '이 항목을 삭제하시겠습니까?',
-    fileInputLabel: '파일 선택(40MB 이하)',
+    fileInputLabel: '파일 선택(30MB 이하)',
     fetchExecutionLoading: '테스트 실행 데이터를 가져오는 중...',
     addJiraItemSuccess: 'Jira 항목이 성공적으로 추가되었습니다.'
   },
