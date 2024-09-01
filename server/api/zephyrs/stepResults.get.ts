@@ -6,11 +6,6 @@ export default defineEventHandler((event) => {
   const query = getQuery(event);
   const accessKey = getCookie(event, ZEPHYR_ACCESS_API_COOKIE_NAME);
 
-  throw createError({
-    statusCode: 400,
-    statusMessage: 'PLEASE_LOGIN'
-  });
-
   if (!query || !query.issueId || !query.executionId) {
     throw createError({
       statusCode: 400,
