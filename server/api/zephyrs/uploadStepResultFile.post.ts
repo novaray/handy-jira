@@ -2,6 +2,7 @@ import { ZEPHYR_BASE_URL } from '~~/constants/baseUrl';
 import { ZEPHYR_ACCESS_API_COOKIE_NAME } from '~~/constants/cookieName';
 import type { UploadStepResultFileResponse } from '~~/types/zephyrs/UploadStepResultFile';
 import { Blob } from 'buffer';
+import { FILE_LIMIT_SIZE } from '~~/constants/common';
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
@@ -33,11 +34,16 @@ export default defineEventHandler(async (event) => {
     });
   }
 
-  const videoFile = form.find((file) => file.filename);
-  if (!videoFile) {
+  const file = form.find((file) => file.filename);
+  if (!file) {
     throw createError({
       statusCode: 400,
       statusMessage: 'NO_FILE_UPLOADED'
+    });
+  } else if (file.data.length > FILE_LIMIT_SIZE) {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'FILE_SIZE_EX'
     });
   }
 
@@ -53,8 +59,8 @@ export default defineEventHandler(async (event) => {
   const jwt = generateZephyrJWT(event, method, relativePath, querystring);
   const sendForm = new FormData();
 
-  sendForm.append('attachmentFileName', videoFile.filename!);
-  sendForm.append('files', new Blob([videoFile.data]) as any, videoFile.filename!);
+  sendForm.append('attachmentFileName', file.filename!);
+  sendForm.append('files', new Blob([file.data]) as any, file.filename!);
 
   return $fetch<UploadStepResultFileResponse>(`${ZEPHYR_BASE_URL}${relativePath}?${querystring}`, {
     method: 'POST',
